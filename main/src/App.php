@@ -25,9 +25,6 @@ class App
     /** @var string */
     protected $access_key_secret;
 
-    /** @var string */
-    protected $filename;
-
     /**
      * App constructor.
      * @param array $config
@@ -59,12 +56,6 @@ class App
         } else {
             throw new Exception('Please set AWS Access key secret in config.php file');
         }
-
-        if (isset($config['filename'])) {
-            $this->filename = $config['filename'];
-        } else {
-            throw new Exception('Please pass the path to the file as a parameter to the script');
-        }
     }
 
     public function init()
@@ -82,7 +73,7 @@ class App
 
     public function uploadFile()
     {
-        $uploader = new MultipartUploader($this->glacier, $this->filename, [
+        $uploader = new MultipartUploader($this->glacier, 'php://stdin', [
             'vault_name' => $this->vault
         ]);
         $uploader->upload();
