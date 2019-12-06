@@ -1,0 +1,11 @@
+{
+    "name": "exception0x876/aws-glacier-backup",
+    "description": "AWS Glacier backup tool.",
+    "keywords": ["AWS", "Glacier", "backup"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^7.0",
+        "aws/aws-sdk-php": "^3.128"
+    }
+}
