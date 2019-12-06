@@ -34,7 +34,7 @@ class App
      * @param array $argv
      * @throws Exception
      */
-    public function __construct($config, $argv)
+    public function __construct($config)
     {
         if (isset($config['AWS_REGION'])) {
             $this->region = $config['AWS_REGION'];
@@ -60,12 +60,8 @@ class App
             throw new Exception('Please set AWS Access key secret in config.php file');
         }
 
-        if (isset($argv[1])) {
-            if (file_exists($argv[1])) {
-                $this->filename = $argv[1];
-            } else {
-                throw new Exception('Could not find the file');
-            }
+        if (isset($config['filename'])) {
+            $this->filename = $config['filename'];
         } else {
             throw new Exception('Please pass the path to the file as a parameter to the script');
         }
