@@ -68,14 +68,18 @@ class App
                 'secret' => $this->access_key_secret
             ]
         ]);
-        $this->uploadFile();
+        echo $this->uploadFile() . "\n";
     }
 
+    /**
+     * @return string
+     */
     public function uploadFile()
     {
         $uploader = new MultipartUploader($this->glacier, 'php://stdin', [
             'vault_name' => $this->vault
         ]);
-        $uploader->upload();
+        $result = $uploader->upload();
+        return $result->get('archiveId');
     }
 }
