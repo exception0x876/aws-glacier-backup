@@ -1,2 +1,3 @@
 .idea
 main/vendor
+aws-glacier-backup.phar
