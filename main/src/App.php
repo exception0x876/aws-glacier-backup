@@ -15,7 +15,7 @@ class App
 
     const UPLOAD_CONCURRENCY = 1;
 
-    const UPLOAD_PART_SIZE = 50 * 1024 * 1024;
+    const UPLOAD_PART_SIZE = 16 * 1024 * 1024;
 
     /** @var GlacierClient */
     protected $glacier;
