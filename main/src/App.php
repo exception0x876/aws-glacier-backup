@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Aws\Exception\MultipartUploadException;
 use Aws\Glacier\GlacierClient;
 use Aws\Glacier\MultipartUploader;
 use Exception;
@@ -9,6 +10,8 @@ use Exception;
 class App
 {
     const GLACIER_VERSION = '2012-06-01';
+
+    const UPLOAD_SOURCE = 'php://stdin';
 
     /** @var GlacierClient */
     protected $glacier;
@@ -76,10 +79,18 @@ class App
      */
     public function uploadFile()
     {
-        $uploader = new MultipartUploader($this->glacier, 'php://stdin', [
+        $uploader = new MultipartUploader($this->glacier, self::UPLOAD_SOURCE, [
             'vault_name' => $this->vault
         ]);
-        $result = $uploader->upload();
+        do {
+            try {
+                $result = $uploader->upload();
+            } catch (MultipartUploadException $e) {
+                $uploader = new MultipartUploader($this->glacier, self::UPLOAD_SOURCE, [
+                    'state' => $e->getState()
+                ]);
+            }
+        } while (!isset($result));
         return $result->get('archiveId');
     }
 }
