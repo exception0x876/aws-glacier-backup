@@ -13,6 +13,10 @@ class App
 
     const UPLOAD_SOURCE = 'php://stdin';
 
+    const UPLOAD_CONCURRENCY = 1;
+
+    const UPLOAD_PART_SIZE = 50 * 1024 * 1024;
+
     /** @var GlacierClient */
     protected $glacier;
 
@@ -80,7 +84,9 @@ class App
     public function uploadFile()
     {
         $uploader = new MultipartUploader($this->glacier, self::UPLOAD_SOURCE, [
-            'vault_name' => $this->vault
+            'vault_name' => $this->vault,
+            'concurrency' => self::UPLOAD_CONCURRENCY,
+            'part_size' => self::UPLOAD_PART_SIZE
         ]);
         do {
             try {
